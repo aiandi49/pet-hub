@@ -39,15 +39,27 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+/* ── CUSTOM CURSOR — SVG via CSS, renders at OS level above all stacking contexts ── */
+:root {
+  --cursor-dot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23F5C84A'/%3E%3C/svg%3E") 8 8, auto;
+  --cursor-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23F5C84A'/%3E%3Ccircle cx='8' cy='8' r='17' fill='none' stroke='rgba(245%2C200%2C74%2C0.5)' stroke-width='1.5'/%3E%3C/svg%3E") 8 8, auto;
+}
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Syne', sans-serif;
-  overflow-x: hidden;
-  cursor: none;
+  cursor: var(--cursor-dot);
 }
+
+a, button, [role="button"], .btn-primary, .btn-outline {
+  cursor: var(--cursor-ring);
+}
+
+/* ── LEGACY DOM CURSOR (hidden — keeping markup clean) ── */
+.cursor, .cursor-ring { display: none; }
 
 /* ── CUSTOM CURSOR ── */
 .cursor {
@@ -56,7 +68,7 @@ body {
   background: var(--gold);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 2147483647;
   transition: transform 0.1s ease, opacity 0.2s;
   transform: translate(-50%, -50%);
 }
@@ -66,7 +78,7 @@ body {
   border: 1px solid rgba(245,200,74,0.4);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 2147483646;
   transition: transform 0.18s ease;
   transform: translate(-50%, -50%);
 }
@@ -87,10 +99,8 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 20px 0;
   background: linear-gradient(to bottom, rgba(7,7,15,0.95) 0%, transparent 100%);
-  backdrop-filter: blur(0px);
-  transition: backdrop-filter 0.3s;
 }
-nav.scrolled { backdrop-filter: blur(20px); background: rgba(7,7,15,0.85); }
+nav.scrolled { background: rgba(7,7,15,0.92); }
 .nav-inner {
   max-width: 1100px; margin: 0 auto; padding: 0 32px;
   display: flex; align-items: center; justify-content: space-between;
@@ -512,7 +522,7 @@ nav.scrolled { backdrop-filter: blur(20px); background: rgba(7,7,15,0.85); }
   padding: 14px 32px; border-radius: 40px;
   font-size: 0.8rem; font-weight: 800;
   letter-spacing: 0.06em; text-transform: uppercase;
-  text-decoration: none; border: none; cursor: none;
+  text-decoration: none; border: none;
   transition: opacity 0.2s, transform 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
 }
@@ -523,7 +533,7 @@ nav.scrolled { backdrop-filter: blur(20px); background: rgba(7,7,15,0.85); }
   padding: 14px 32px; border-radius: 40px;
   font-size: 0.8rem; font-weight: 700;
   letter-spacing: 0.06em; text-transform: uppercase;
-  text-decoration: none; cursor: none;
+  text-decoration: none;
   transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 8px;
 }
@@ -639,10 +649,6 @@ footer {
 </style>
 </head>
 <body>
-
-<!-- Custom Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 <nav id="mainNav">
@@ -951,24 +957,9 @@ footer {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// Custom cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function animateCursor() {
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; });
-});
+<!-- Custom Cursor — injected via JS at bottom of body -->
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Nav scroll
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
