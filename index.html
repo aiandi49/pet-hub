@@ -505,7 +505,7 @@ nav.scrolled { backdrop-filter: blur(20px); background: rgba(7,7,15,0.85); }
 .channel-name { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
 .channel-desc { font-size: 0.72rem; color: var(--text2); }
 
-.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
 .btn-primary {
   background: var(--gold);
   color: #07070F;
@@ -617,10 +617,13 @@ footer {
 
 /* Reveal on scroll */
 .reveal {
-  opacity: 0; transform: translateY(30px);
+  opacity: 1; transform: translateY(0);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.hidden {
+  opacity: 0; transform: translateY(30px);
+}
+.reveal.hidden.visible { opacity: 1; transform: translateY(0); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
@@ -650,8 +653,8 @@ footer {
     </a>
     <div class="nav-links">
       <a href="#apps">The Apps</a>
-      <a href="#join">Community</a>
-      <a href="#github">GitHub</a>
+      <a href="#join">Try Now</a>
+      <a href="mailto:lamar@vtrei.com">Contact Us</a>
       <a href="#join" class="nav-cta">Join the Pack 🐾</a>
     </div>
   </div>
@@ -822,60 +825,61 @@ footer {
   </div>
 </section>
 
-<!-- JOIN / MARKETING -->
+<!-- JOIN / COMMUNITY -->
 <section class="join-section" id="join">
   <div class="wrap">
     <div class="join-inner reveal">
-      <p class="section-label">Spread the Word</p>
-      <h2 class="join-title">Join the <em>Pack</em></h2>
+      <p class="section-label">Early Access — Beta</p>
+      <h2 class="join-title">We're Just <em>Getting Started</em></h2>
       <p class="join-sub">
-        Share PetHub with every pet owner, rescue group, groomer,
-        vet clinic, and neighbor — in your city and beyond.
+        PetHub launched from Tucson's East Side and is now open to everyone.
+        Be one of the first pet owners in your city to use all three apps — free, always.
       </p>
 
       <div class="join-grid">
         <div class="join-channel">
-          <div class="channel-icon">📘</div>
-          <div class="channel-name">Facebook Groups</div>
-          <div class="channel-desc">Lost & Found Pets groups, neighborhood pages, and local rescue communities everywhere</div>
+          <div class="channel-icon">🚨</div>
+          <div class="channel-name">Try PetConnect</div>
+          <div class="channel-desc">Post a lost, found, or stray pet in your neighborhood right now — no account needed</div>
         </div>
         <div class="join-channel">
-          <div class="channel-icon">📸</div>
-          <div class="channel-name">Instagram</div>
-          <div class="channel-desc">Reels of the apps in action, pet success stories, and Paw Pound leaderboard highlights</div>
+          <div class="channel-icon">💚</div>
+          <div class="channel-name">Try PawMatch</div>
+          <div class="channel-desc">Create a profile for your dog and find a compatible playdate partner near you</div>
         </div>
         <div class="join-channel">
-          <div class="channel-icon">💼</div>
-          <div class="channel-name">LinkedIn</div>
-          <div class="channel-desc">The "built for my community, now for every community" founder story</div>
+          <div class="channel-icon">🏆</div>
+          <div class="channel-name">Try Paw Pound</div>
+          <div class="channel-desc">Vote HOT or NOT on pets, watch the live leaderboard, and post your own pet to get rated</div>
         </div>
         <div class="join-channel">
-          <div class="channel-icon">🏪</div>
-          <div class="channel-name">Local Businesses</div>
-          <div class="channel-desc">Vet clinics, pet stores, groomers — QR code cards in every waiting room</div>
+          <div class="channel-icon">📬</div>
+          <div class="channel-name">Share With a Neighbor</div>
+          <div class="channel-desc">Text this page to one pet owner you know — that's how communities grow</div>
         </div>
         <div class="join-channel">
-          <div class="channel-icon">📍</div>
-          <div class="channel-name">Nextdoor</div>
-          <div class="channel-desc">Post in your neighborhood — PetConnect is most powerful when your block uses it</div>
+          <div class="channel-icon">💬</div>
+          <div class="channel-name">Send Us Feedback</div>
+          <div class="channel-desc">We're in beta and want to hear what works, what doesn't, and what you wish existed</div>
         </div>
         <div class="join-channel">
-          <div class="channel-icon">🎙️</div>
-          <div class="channel-name">Local Media</div>
-          <div class="channel-desc">TV stations, community blogs, local papers — "built in Tucson, now for the world"</div>
+          <div class="channel-icon">🐾</div>
+          <div class="channel-name">Built in Tucson · Open to All</div>
+          <div class="channel-desc">Born in 85710. Now available in every city, every neighborhood, everywhere pets are loved</div>
         </div>
       </div>
 
       <div class="cta-buttons">
-        <a href="https://github.com/aiandi49" target="_blank" class="btn-primary">🐾 View on GitHub</a>
-        <a href="/cdn-cgi/l/email-protection#74181519150634020006111d5a171b19" class="btn-outline">📬 Partner With Us</a>
+        <a href="https://tucson-pet-finder.vercel.app" target="_blank" class="btn-primary">🚨 Open PetConnect</a>
+        <a href="https://pawmatch-seven.vercel.app" target="_blank" class="btn-outline">💚 Open PawMatch</a>
+        <a href="https://paw-pound.vercel.app" target="_blank" class="btn-outline">🏆 Open Paw Pound</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- GITHUB GUIDE -->
-<section class="github-section" id="github">
+<section class="github-section" id="live-apps">
   <div class="wrap">
     <p class="section-label reveal">Already Live</p>
     <h2 class="section-title reveal" style="margin-bottom:36px">Find Us on <em>GitHub</em></h2>
@@ -970,6 +974,19 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Reveal on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobser
+// Reveal on scroll - progressive enhancement
+const revealEls = document.querySelectorAll('.reveal');
+// Only animate if IntersectionObserver is supported
+if ('IntersectionObserver' in window) {
+  revealEls.forEach(el => el.classList.add('hidden'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.classList.remove('hidden');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => observer.observe(el));
+}
