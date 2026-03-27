@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PetHub — Tucson's East Side pet community. Three apps, one mission: every pet connected, protected, and loved. 85710.">
+<title>PetHub — Tucson's Pet Community | East Side 85710</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:       #07070F;
+  --bg2:      #0B0B15;
+  --bg3:      #10101C;
+  --surface:  #161624;
+  --surface2: #1C1C2E;
+  --border:   rgba(255,255,255,0.06);
+  --border2:  rgba(255,255,255,0.12);
+  --text:     #EEEEF8;
+  --text2:    #7878A0;
+  --text3:    #3A3A58;
+
+  /* Brand accents */
+  --gold:     #F5C84A;
+  --gold-dim: rgba(245,200,74,0.12);
+  --gold-glow:rgba(245,200,74,0.30);
+  --coral:    #FF5C6C;
+  --coral-dim:rgba(255,92,108,0.12);
+  --teal:     #00CDB4;
+  --teal-dim: rgba(0,205,180,0.10);
+  --violet:   #9F7FFF;
+  --violet-dim:rgba(159,127,255,0.10);
+
+  /* App-specific colors */
+  --connect-color: #FF5C6C;
+  --pawmatch-color:#00CDB4;
+  --pawpound-color:#F5C84A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed; top: 0; left: 0;
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(245,200,74,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.18s ease;
+  transform: translate(-50%, -50%);
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── LAYOUT ── */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px 0;
+  background: linear-gradient(to bottom, rgba(7,7,15,0.95) 0%, transparent 100%);
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter 0.3s;
+}
+nav.scrolled { backdrop-filter: blur(20px); background: rgba(7,7,15,0.85); }
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text2); font-style: normal; font-size: 0.65rem; font-family: 'DM Mono', monospace; display: block; letter-spacing: 0.1em; margin-top: -2px; }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { color: var(--text2); text-decoration: none; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--gold); color: #07070F;
+  padding: 9px 22px; border-radius: 30px;
+  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;
+  text-transform: uppercase; text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 32px 80px;
+  position: relative; overflow: hidden;
+}
+
+/* Radial glows */
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 900px; height: 600px;
+  background: radial-gradient(ellipse, rgba(245,200,74,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 400px;
+  background: radial-gradient(ellipse, rgba(0,205,180,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,200,74,0.2);
+  border-radius: 30px;
+  padding: 7px 18px;
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-eyebrow::before { content: '🐾'; font-size: 0.8rem; }
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+  opacity: 0; animation: fadeUp 0.9s 0.3s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold) 0%, #FFE090 50%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: var(--text2);
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+}
+
+.hero-location {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 52px;
+  opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-location strong { color: var(--teal); }
+
+.hero-apps {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: fadeUp 0.9s 0.65s forwards;
+}
+.hero-app-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 40px;
+  padding: 10px 20px;
+  font-size: 0.78rem; font-weight: 700;
+  text-decoration: none; color: var(--text);
+  transition: all 0.25s;
+  position: relative; overflow: hidden;
+}
+.hero-app-pill::before {
+  content: ''; position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.25s;
+}
+.hero-app-pill:hover { transform: translateY(-3px); border-color: transparent; }
+.hero-app-pill:hover::before { opacity: 1; }
+.hero-app-pill.connect::before  { background: linear-gradient(135deg, rgba(255,92,108,0.15), rgba(255,92,108,0.05)); }
+.hero-app-pill.pawmatch::before { background: linear-gradient(135deg, rgba(0,205,180,0.15), rgba(0,205,180,0.05)); }
+.hero-app-pill.pawpound::before { background: linear-gradient(135deg, rgba(245,200,74,0.15), rgba(245,200,74,0.05)); }
+.hero-app-pill:hover.connect  { border-color: rgba(255,92,108,0.3); }
+.hero-app-pill:hover.pawmatch { border-color: rgba(0,205,180,0.3); }
+.hero-app-pill:hover.pawpound { border-color: rgba(245,200,74,0.3); }
+.pill-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.connect  .pill-dot { background: var(--connect-color); box-shadow: 0 0 6px var(--coral); }
+.pawmatch .pill-dot { background: var(--pawmatch-color); box-shadow: 0 0 6px var(--teal); }
+.pawpound .pill-dot { background: var(--pawpound-color); box-shadow: 0 0 6px var(--gold); }
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3);
+  opacity: 0; animation: fadeIn 1s 1.5s forwards;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--text3), transparent);
+  animation: scrollPulse 2s infinite;
+}
+
+/* ── MISSION BAND ── */
+.mission {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  position: relative; z-index: 1;
+}
+.mission-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 2.2rem);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text2);
+  max-width: 700px; margin: 0 auto;
+}
+.mission-text strong { color: var(--text); font-style: normal; }
+
+/* ── APPS SECTION ── */
+.apps-section { padding: 120px 0; position: relative; z-index: 1; }
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 60px;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* App cards */
+.apps-grid { display: flex; flex-direction: column; gap: 2px; }
+
+.app-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 52px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative; overflow: hidden;
+  text-decoration: none; color: inherit;
+}
+.app-card::before {
+  content: ''; position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.35s;
+}
+.app-card:hover { transform: scale(1.012); border-color: transparent; }
+.app-card:hover::before { opacity: 1; }
+
+.app-card.connect { --card-color: var(--connect-color); }
+.app-card.pawmatch { --card-color: var(--pawmatch-color); }
+.app-card.pawpound { --card-color: var(--pawpound-color); }
+
+.app-card.connect::before  { background: linear-gradient(135deg, rgba(255,92,108,0.08), rgba(255,92,108,0.02)); }
+.app-card.pawmatch::before { background: linear-gradient(135deg, rgba(0,205,180,0.08), rgba(0,205,180,0.02)); }
+.app-card.pawpound::before { background: linear-gradient(135deg, rgba(245,200,74,0.08), rgba(245,200,74,0.02)); }
+
+.app-card:hover.connect  { border-color: rgba(255,92,108,0.25); }
+.app-card:hover.pawmatch { border-color: rgba(0,205,180,0.25); }
+.app-card:hover.pawpound { border-color: rgba(245,200,74,0.25); }
+
+/* Accent left border */
+.app-card::after {
+  content: ''; position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--card-color);
+  opacity: 0; transition: opacity 0.35s;
+}
+.app-card:hover::after { opacity: 1; }
+
+.app-card-left { position: relative; z-index: 1; }
+
+.app-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.2em;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.app-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text2); text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--card-color);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.app-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.app-name em { font-style: italic; color: var(--card-color); }
+
+.app-tagline {
+  font-size: 0.85rem; color: var(--text2);
+  font-style: italic;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+}
+
+.app-desc {
+  font-size: 0.88rem; color: var(--text2);
+  line-height: 1.7; max-width: 520px;
+  margin-bottom: 28px;
+}
+
+.app-features {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.feature-tag {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.68rem; font-weight: 600;
+  color: var(--text2); letter-spacing: 0.05em;
+}
+
+.app-card-right { position: relative; z-index: 1; }
+.app-icon-wrap {
+  width: 120px; height: 120px;
+  border-radius: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.app-card:hover .app-icon-wrap {
+  transform: scale(1.08) rotate(-3deg);
+}
+.app-card.connect:hover .app-icon-wrap  { box-shadow: 0 20px 60px rgba(255,92,108,0.2); border-color: rgba(255,92,108,0.3); }
+.app-card.pawmatch:hover .app-icon-wrap { box-shadow: 0 20px 60px rgba(0,205,180,0.2); border-color: rgba(0,205,180,0.3); }
+.app-card.pawpound:hover .app-icon-wrap { box-shadow: 0 20px 60px rgba(245,200,74,0.2); border-color: rgba(245,200,74,0.3); }
+
+.app-arrow {
+  position: absolute; bottom: 24px; right: 24px;
+  width: 36px; height: 36px;
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  color: var(--text2);
+  transition: all 0.25s;
+}
+.app-card:hover .app-arrow {
+  background: var(--card-color);
+  border-color: var(--card-color);
+  color: #07070F;
+  transform: rotate(45deg);
+}
+
+/* ── STATS ── */
+.stats-section {
+  padding: 100px 0;
+  border-top: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.stat-cell {
+  background: var(--bg2);
+  padding: 48px 40px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -0.03em;
+  display: block;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--text2); letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── MARKETING / JOIN ── */
+.join-section { padding: 120px 0; position: relative; z-index: 1; }
+.join-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 72px;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.join-inner::before {
+  content: '';
+  position: absolute; top: -150px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(245,200,74,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.join-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.join-title em { font-style: italic; color: var(--gold); }
+.join-sub {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem; color: var(--text2);
+  margin-bottom: 48px;
+  max-width: 500px; margin-left: auto; margin-right: auto;
+}
+.join-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 52px;
+}
+.join-channel {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  transition: all 0.25s;
+}
+.join-channel:hover { border-color: var(--border2); transform: translateY(-3px); }
+.channel-icon { font-size: 1.8rem; margin-bottom: 10px; }
+.channel-name { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+.channel-desc { font-size: 0.72rem; color: var(--text2); }
+
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold);
+  color: #07070F;
+  padding: 14px 32px; border-radius: 40px;
+  font-size: 0.8rem; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none; border: none; cursor: none;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+.btn-outline {
+  background: transparent;
+  color: var(--text); border: 1px solid var(--border2);
+  padding: 14px 32px; border-radius: 40px;
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none; cursor: none;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-outline:hover { border-color: var(--text2); transform: translateY(-2px); }
+
+/* ── GITHUB GUIDE ── */
+.github-section { padding: 80px 0 120px; position: relative; z-index: 1; }
+.github-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.github-header {
+  padding: 36px 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px;
+}
+.github-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 900;
+}
+.github-header p { font-size: 0.82rem; color: var(--text2); margin-top: 4px; }
+.github-steps { padding: 0; }
+.github-step {
+  display: flex; gap: 24px; align-items: flex-start;
+  padding: 28px 48px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.github-step:last-child { border-bottom: none; }
+.github-step:hover { background: var(--bg3); }
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,200,74,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem; color: var(--gold);
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-content h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+.step-content p { font-size: 0.8rem; color: var(--text2); line-height: 1.6; }
+.step-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-top: 10px;
+  color: var(--teal);
+  display: inline-block;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 52px 0;
+  position: relative; z-index: 1;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.3rem; color: var(--gold);
+}
+.footer-byline {
+  font-size: 0.72rem; color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+}
+.footer-byline strong { color: var(--text2); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scrollPulse {
+  0%,100%{ transform: scaleY(1); opacity:1; }
+  50%{ transform: scaleY(0.5); opacity:0.4; }
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .app-card { grid-template-columns: 1fr; padding: 32px; }
+  .app-card-right { display: none; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .join-inner { padding: 40px 24px; }
+  .github-header, .github-step { padding: 24px; }
+  nav .nav-links { display: none; }
+  .wrap { padding: 0 20px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      PetHub
+      <span>Tucson · East Side · 85710</span>
+    </a>
+    <div class="nav-links">
+      <a href="#apps">The Apps</a>
+      <a href="#join">Community</a>
+      <a href="#github">GitHub</a>
+      <a href="#join" class="nav-cta">Join the Pack 🐾</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Tucson's Pet Community Platform</div>
+
+  <h1 class="hero-title">
+    One Hub.<br>
+    <em>Three Apps.</em><br>
+    Every Pet.
+  </h1>
+
+  <p class="hero-sub">Built for the East Side. Built for every pet owner who ever needed help.</p>
+
+  <p class="hero-location">Tucson, Arizona &nbsp;·&nbsp; <strong>85710</strong> &nbsp;·&nbsp; Built by VTREI LLC</p>
+
+  <div class="hero-apps">
+    <a href="#petconnect" class="hero-app-pill connect">
+      <span class="pill-dot"></span>
+      PetConnect — Lost &amp; Found
+    </a>
+    <a href="#pawmatch" class="hero-app-pill pawmatch">
+      <span class="pill-dot"></span>
+      PawMatch — Playdates
+    </a>
+    <a href="#pawpound" class="hero-app-pill pawpound">
+      <span class="pill-dot"></span>
+      Paw Pound — Hot or Not
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Explore
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission">
+  <div class="wrap">
+    <p class="mission-text reveal">
+      Every pet deserves to be <strong>found</strong> when lost, <strong>connected</strong> when lonely,
+      and <strong>celebrated</strong> by the community that loves them.
+      PetHub is the home for all of it.
+    </p>
+  </div>
+</section>
+
+<!-- APPS SECTION -->
+<section class="apps-section" id="apps">
+  <div class="wrap">
+    <p class="section-label reveal">The Platform</p>
+    <h2 class="section-title reveal">Three apps. <em>One mission.</em></h2>
+
+    <div class="apps-grid">
+
+      <!-- PetConnect -->
+      <a href="#petconnect" class="app-card connect reveal" id="petconnect">
+        <div class="app-card-left">
+          <div class="app-number">01 — Core App</div>
+          <div class="app-status"><span class="status-dot"></span> Live on GitHub</div>
+          <h3 class="app-name">Pet<em>Connect</em></h3>
+          <p class="app-tagline">"Your neighbor found your dog before you even knew it was gone."</p>
+          <p class="app-desc">
+            The anchor of the PetHub ecosystem. Tucson's East Side emergency network for
+            lost pets, found pets, and stray sightings. Real-time P.A.W.S. alerts fire
+            like an Amber Alert the moment someone posts. GPS location capture, voice-to-text
+            posting, photo uploads, and a verified claim flow so only the real owner
+            can mark a pet as reunited.
+          </p>
+          <div class="app-features">
+            <span class="feature-tag">🔴 P.A.W.S. Alerts</span>
+            <span class="feature-tag">📍 GPS Location</span>
+            <span class="feature-tag">🎤 Voice Posting</span>
+            <span class="feature-tag">🐾 Lost · Found · Stray</span>
+            <span class="feature-tag">✅ Verified Claims</span>
+            <span class="feature-tag">📱 Mobile First</span>
+          </div>
+        </div>
+        <div class="app-card-right">
+          <div class="app-icon-wrap">🐾</div>
+        </div>
+        <div class="app-arrow">↗</div>
+      </a>
+
+      <!-- PawMatch -->
+      <a href="#pawmatch" class="app-card pawmatch reveal" id="pawmatch">
+        <div class="app-card-left">
+          <div class="app-number">02 — Social App</div>
+          <div class="app-status"><span class="status-dot"></span> Live on GitHub</div>
+          <h3 class="app-name">Paw<em>Match</em></h3>
+          <p class="app-tagline">"Tinder for pets — swipe right on your dog's next best friend."</p>
+          <p class="app-desc">
+            The social layer of PetHub. Dog owners in the 85710 area create profiles
+            for their pets and get matched with compatible playdate partners nearby.
+            Swipe through pups, see energy levels and size compatibility, and
+            connect with other owners for meetups at Brandi Fenton or Himmel Park.
+            Built with a dark, sophisticated design — nothing kiddish here.
+          </p>
+          <div class="app-features">
+            <span class="feature-tag">💚 Swipe Matching</span>
+            <span class="feature-tag">📸 Pet Profiles</span>
+            <span class="feature-tag">🗺 Tucson Locations</span>
+            <span class="feature-tag">⚡ Energy Matching</span>
+            <span class="feature-tag">🐕 Size Compatibility</span>
+            <span class="feature-tag">🔒 Safety Board</span>
+          </div>
+        </div>
+        <div class="app-card-right">
+          <div class="app-icon-wrap">💚</div>
+        </div>
+        <div class="app-arrow">↗</div>
+      </a>
+
+      <!-- Paw Pound -->
+      <a href="#pawpound" class="app-card pawpound reveal" id="pawpound">
+        <div class="app-card-left">
+          <div class="app-number">03 — Entertainment App</div>
+          <div class="app-status"><span class="status-dot"></span> In Development</div>
+          <h3 class="app-name">Paw <em>Pound</em></h3>
+          <p class="app-tagline">"Hot or Not — but make it pets. Vote, rank, and crown Tucson's top dog."</p>
+          <p class="app-desc">
+            The fun layer of PetHub. Post your pet, get rated by other owners,
+            climb the Hot Board leaderboard, and build streaks. Real dog photos
+            via live API, confetti animations on big moments, and a Live Votes
+            feed so you can watch the community weigh in in real time.
+            It's the app that gets people talking — and sharing — and coming back daily.
+          </p>
+          <div class="app-features">
+            <span class="feature-tag">🔥 Hot or Not Voting</span>
+            <span class="feature-tag">🏆 Live Leaderboard</span>
+            <span class="feature-tag">📸 Real Dog Photos</span>
+            <span class="feature-tag">🎉 Confetti Moments</span>
+            <span class="feature-tag">🔁 Daily Streaks</span>
+            <span class="feature-tag">⚡ Live Feed</span>
+          </div>
+        </div>
+        <div class="app-card-right">
+          <div class="app-icon-wrap">🏆</div>
+        </div>
+        <div class="app-arrow">↗</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="wrap">
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Unique Apps</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">85710</span>
+        <span class="stat-label">Home Zip Code</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Pets to Help</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN / MARKETING -->
+<section class="join-section" id="join">
+  <div class="wrap">
+    <div class="join-inner reveal">
+      <p class="section-label">Spread the Word</p>
+      <h2 class="join-title">Join the <em>Pack</em></h2>
+      <p class="join-sub">
+        Share PetHub with every pet owner, rescue group, groomer,
+        vet clinic, and neighbor in Tucson's East Side.
+      </p>
+
+      <div class="join-grid">
+        <div class="join-channel">
+          <div class="channel-icon">📘</div>
+          <div class="channel-name">Facebook Groups</div>
+          <div class="channel-desc">Tucson Lost & Found Pets, East Side Neighbors, local rescue groups</div>
+        </div>
+        <div class="join-channel">
+          <div class="channel-icon">📸</div>
+          <div class="channel-name">Instagram</div>
+          <div class="channel-desc">Reel of the apps in action, pet success stories, leaderboard highlights</div>
+        </div>
+        <div class="join-channel">
+          <div class="channel-icon">💼</div>
+          <div class="channel-name">LinkedIn</div>
+          <div class="channel-desc">Built in Tucson story, VTREI LLC launch, community tech angle</div>
+        </div>
+        <div class="join-channel">
+          <div class="channel-icon">🏪</div>
+          <div class="channel-name">Local Businesses</div>
+          <div class="channel-desc">Vet clinics, pet stores, groomers — leave QR code cards</div>
+        </div>
+        <div class="join-channel">
+          <div class="channel-icon">📍</div>
+          <div class="channel-name">Nextdoor</div>
+          <div class="channel-desc">Post directly in 85710, Pantano, Rincon Heights neighborhoods</div>
+        </div>
+        <div class="join-channel">
+          <div class="channel-icon">🎙️</div>
+          <div class="channel-name">Local Media</div>
+          <div class="channel-desc">KVOA, KGUN9, Tucson Sentinel — community tech story pitch</div>
+        </div>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="https://github.com" target="_blank" class="btn-primary">🐾 View on GitHub</a>
+        <a href="mailto:lamar@vtrei.com" class="btn-outline">📬 Partner With Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB GUIDE -->
+<section class="github-section" id="github">
+  <div class="wrap">
+    <p class="section-label reveal">Launch Roadmap</p>
+    <h2 class="section-title reveal" style="margin-bottom:36px">Get <em>Live</em> on GitHub</h2>
+
+    <div class="github-inner reveal">
+      <div class="github-header">
+        <div>
+          <h3>PetHub GitHub Setup Guide</h3>
+          <p>Step-by-step: create the PetHub org, add all three app repos, and publish the hub landing page</p>
+        </div>
+      </div>
+      <div class="github-steps">
+
+        <div class="github-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>Create a GitHub Organization: PetHub-Tucson</h4>
+            <p>Go to github.com → click your profile → "Your organizations" → "New organization." Name it <strong>PetHub-Tucson</strong>. Choose the Free plan. This becomes the umbrella for all three apps.</p>
+          </div>
+        </div>
+
+        <div class="github-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>Add PetConnect (already built)</h4>
+            <p>In the PetHub-Tucson org, create a new repo named <strong>petconnect</strong>. Upload your tucson-pet-finder HTML files. Add a README.md with the app description, screenshots, and the 85710 story.</p>
+            <div class="step-code">Repo: PetHub-Tucson / petconnect</div>
+          </div>
+        </div>
+
+        <div class="github-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>Add PawMatch (already built)</h4>
+            <p>Create repo <strong>pawmatch</strong> in the same org. Upload pup-playdate-v2.html and the press kit HTML. Your Supabase config should use environment variables — never hardcode keys in public repos.</p>
+            <div class="step-code">Repo: PetHub-Tucson / pawmatch</div>
+          </div>
+        </div>
+
+        <div class="github-step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h4>Add Paw Pound (in development)</h4>
+            <p>Create repo <strong>paw-pound</strong>. Upload paw-pound-v3.html. Even as beta, having it in the org tells the story of what's coming. Mark it as "beta" in the README.</p>
+            <div class="step-code">Repo: PetHub-Tucson / paw-pound</div>
+          </div>
+        </div>
+
+        <div class="github-step">
+          <div class="step-num">05</div>
+          <div class="step-content">
+            <h4>Publish this PetHub landing page</h4>
+            <p>Create repo <strong>pethub</strong> and upload this pet-hub.html file as <strong>index.html</strong>. Then go to Settings → Pages → Source: main branch → /root. GitHub Pages will give you a free live URL instantly.</p>
+            <div class="step-code">github.io/PetHub-Tucson/pethub → Live URL</div>
+          </div>
+        </div>
+
+        <div class="github-step">
+          <div class="step-num">06</div>
+          <div class="step-content">
+            <h4>Link everything together</h4>
+            <p>Update the org profile README (create a .github repo with a profile/README.md) with the PetHub story, links to all three apps, screenshots, and a "Built in Tucson 85710 by VTREI LLC" footer. This becomes your public portfolio.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-logo">PetHub 🐾</div>
+      <div class="footer-byline">
+        Built in Tucson, AZ · <strong>85710</strong> · East Side<br>
+        VTREI LLC · Built with ❤️ for every pet &amp; owner in the community
+      </div>
+      <div class="footer-byline" style="text-align:right;">
+        PetConnect · PawMatch · Paw Pound<br>
+        <strong style="color:var(--gold)">One Hub. Three Apps. Every Pet.</strong>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; });
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
