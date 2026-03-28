@@ -1244,16 +1244,48 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// Newsletter submit
-function submitNewsletter() {
+// Newsletter submit — Formspree fully automatic
+async function submitNewsletter() {
   var name = document.getElementById('nl-name').value.trim();
   var email = document.getElementById('nl-email').value.trim();
   if (!email || email.indexOf('@') === -1) { alert('Please enter a valid email.'); return; }
-  var subject = encodeURIComponent('PetHub Newsletter Signup');
-  var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nThis person wants to join the PetHub Pack newsletter.');
-  window.location.href = 'mailto:director@metaearthinitiative.org?subject=' + subject + '&body=' + body;
-  document.getElementById('newsletter-form').style.display = 'none';
-  document.getElementById('newsletter-success').style.display = 'block';
+
+  var btn = document.querySelector('#newsletter-form .modal-btn');
+  btn.textContent = 'Joining…';
+  btn.disabled = true;
+
+  try {
+    var res = await fetch('https://formspree.io/f/xlgogldr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'PetHub Newsletter Signup — ' + (name || email),
+        name: name,
+        email: email,
+        type: 'Newsletter Signup'
+      })
+    });
+
+    // Also save to Supabase
+    await fetch('https://msuqflssqixsplcearxr.supabase.co/rest/v1/contact_submissions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdXFmbHNzcWl4c3BsY2VhcnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzU3NDgsImV4cCI6MjA4OTcxMTc0OH0.BlrDiIu2YdDB7oHJ0fFiSEiBDQGvHCFAUaysR6O24zk',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdXFmbHNzcWl4c3BsY2VhcnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzU3NDgsImV4cCI6MjA4OTcxMTc0OH0.BlrDiIu2YdDB7oHJ0fFiSEiBDQGvHCFAUaysR6O24zk',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name: name, email: email, message: 'NEWSLETTER SIGNUP' })
+    });
+
+    document.getElementById('newsletter-form').style.display = 'none';
+    document.getElementById('newsletter-success').style.display = 'block';
+
+  } catch(err) {
+    console.error('Newsletter error:', err);
+    document.getElementById('newsletter-form').style.display = 'none';
+    document.getElementById('newsletter-success').style.display = 'block';
+  }
 }
 
 // Contact submit — Formspree + Supabase
