@@ -1247,6 +1247,9 @@ function openModal(id) {
     if (name) name.value = '';
     if (email) email.value = '';
     if (msg) msg.value = '';
+    // Reset the Send button
+    var btn = document.querySelector('#contact-form .modal-btn');
+    if (btn) { btn.textContent = 'Send Message'; btn.disabled = false; }
   }
 
   // Reset newsletter modal
@@ -1259,6 +1262,9 @@ function openModal(id) {
     var nlemail = document.getElementById('nl-email');
     if (nlname) nlname.value = '';
     if (nlemail) nlemail.value = '';
+    // Reset the Join button
+    var nbtn = document.querySelector('#newsletter-form .modal-btn');
+    if (nbtn) { nbtn.textContent = '\ud83d\udc3e Join the Pack'; nbtn.disabled = false; }
   }
 }
 function closeModal(id) {
