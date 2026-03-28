@@ -635,6 +635,86 @@ footer {
 }
 .reveal.hidden.visible { opacity: 1; transform: translateY(0); }
 
+/* ── MODALS ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(7,7,15,0.85);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 52px 44px 44px;
+  max-width: 440px; width: 100%;
+  position: relative;
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+}
+.modal-box--wide { max-width: 560px; }
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; color: var(--text2);
+  font-size: 1rem; cursor: var(--cursor-ring);
+  padding: 4px 8px; border-radius: 6px;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--text); }
+.modal-icon { font-size: 2.4rem; margin-bottom: 16px; }
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 900;
+  letter-spacing: -0.02em; margin-bottom: 10px;
+}
+.modal-sub {
+  font-size: 0.85rem; color: var(--text2); line-height: 1.6;
+  margin-bottom: 28px;
+}
+.modal-input {
+  display: block; width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.modal-input:focus { border-color: var(--gold); }
+.modal-textarea { min-height: 110px; resize: vertical; }
+.modal-btn {
+  width: 100%; margin-top: 4px;
+  background: var(--gold); color: #07070F;
+  border: none; border-radius: 40px;
+  padding: 14px 32px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: var(--cursor-ring);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.modal-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.modal-success { padding: 12px 0; line-height: 1.6; }
+.about-story p {
+  font-size: 0.88rem; color: var(--text2); line-height: 1.75;
+  margin-bottom: 14px; text-align: left;
+}
+.about-story p strong { color: var(--text); }
+.about-tagline {
+  font-family: 'Playfair Display', serif !important;
+  font-style: italic; font-size: 1rem !important;
+  color: var(--gold) !important;
+  text-align: center !important;
+}
+/* make join-channel work as <a> too */
+a.join-channel { text-decoration: none; color: inherit; display: block; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .app-card { grid-template-columns: 1fr; padding: 32px; }
@@ -660,8 +740,8 @@ footer {
     <div class="nav-links">
       <a href="#apps">The Apps</a>
       <a href="#join">Try Now</a>
-      <a href="mailto:lamar@vtrei.com">Contact Us</a>
-      <a href="#join" class="nav-cta">Join the Pack 🐾</a>
+      <a href="#" onclick="openModal('contact-modal');return false;">Contact Us</a>
+      <a href="#" onclick="openModal('newsletter-modal');return false;" class="nav-cta">Join the Pack 🐾</a>
     </div>
   </div>
 </nav>
@@ -724,7 +804,7 @@ footer {
       <a href="https://tucson-pet-finder.vercel.app" target="_blank" class="app-card connect reveal" id="petconnect">
         <div class="app-card-left">
           <div class="app-number">01 — Core App</div>
-          <div class="app-status"><span class="status-dot"></span> Live on GitHub</div>
+          <div class="app-status"><span class="status-dot"></span> Live</div>
           <h3 class="app-name">Pet<em>Connect</em></h3>
           <p class="app-tagline">"Your neighbor found your dog before you even knew it was gone."</p>
           <p class="app-desc">
@@ -753,7 +833,7 @@ footer {
       <a href="https://pawmatch-seven.vercel.app" target="_blank" class="app-card pawmatch reveal" id="pawmatch">
         <div class="app-card-left">
           <div class="app-number">02 — Social App</div>
-          <div class="app-status"><span class="status-dot"></span> Live on GitHub</div>
+          <div class="app-status"><span class="status-dot"></span> Live</div>
           <h3 class="app-name">Paw<em>Match</em></h3>
           <p class="app-tagline">"Tinder for pets — swipe right on your dog's next best friend."</p>
           <p class="app-desc">
@@ -843,32 +923,32 @@ footer {
       </p>
 
       <div class="join-grid">
-        <div class="join-channel">
+        <a href="https://tucson-pet-finder.vercel.app" target="_blank" class="join-channel">
           <div class="channel-icon">🚨</div>
           <div class="channel-name">Try PetConnect</div>
           <div class="channel-desc">Post a lost, found, or stray pet in your neighborhood right now — no account needed</div>
-        </div>
-        <div class="join-channel">
+        </a>
+        <a href="https://pawmatch-seven.vercel.app" target="_blank" class="join-channel">
           <div class="channel-icon">💚</div>
           <div class="channel-name">Try PawMatch</div>
           <div class="channel-desc">Create a profile for your dog and find a compatible playdate partner near you</div>
-        </div>
-        <div class="join-channel">
+        </a>
+        <a href="https://paw-pound.vercel.app" target="_blank" class="join-channel">
           <div class="channel-icon">🏆</div>
           <div class="channel-name">Try Paw Pack</div>
           <div class="channel-desc">Vote HOT or NOT on pets, watch the live leaderboard, and post your own pet to get rated</div>
-        </div>
-        <div class="join-channel">
+        </a>
+        <div class="join-channel" onclick="shareThisPage()" style="cursor:pointer;">
           <div class="channel-icon">📬</div>
           <div class="channel-name">Share With a Neighbor</div>
           <div class="channel-desc">Text this page to one pet owner you know — that's how communities grow</div>
         </div>
-        <div class="join-channel">
+        <div class="join-channel" onclick="openModal('contact-modal')" style="cursor:pointer;">
           <div class="channel-icon">💬</div>
           <div class="channel-name">Send Us Feedback</div>
           <div class="channel-desc">We're in beta and want to hear what works, what doesn't, and what you wish existed</div>
         </div>
-        <div class="join-channel">
+        <div class="join-channel" onclick="openModal('about-modal')" style="cursor:pointer;">
           <div class="channel-icon">🐾</div>
           <div class="channel-name">Built in Tucson · Open to All</div>
           <div class="channel-desc">Born in 85710. Now available in every city, every neighborhood, everywhere pets are loved</div>
@@ -884,61 +964,69 @@ footer {
   </div>
 </section>
 
-<!-- GITHUB GUIDE -->
-<section class="github-section" id="live-apps">
-  <div class="wrap">
-    <p class="section-label reveal">Already Live</p>
-    <h2 class="section-title reveal" style="margin-bottom:36px">Find Us on <em>GitHub</em></h2>
 
-    <div class="github-inner reveal">
-      <div class="github-header">
-        <div>
-          <h3>PetHub on GitHub — aiandi49</h3>
-          <p>All three apps are open, live, and deployed. Click any repo to explore the code.</p>
-        </div>
-      </div>
-      <div class="github-steps">
+<!-- ══════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════ -->
 
-        <div class="github-step">
-          <div class="step-num">✓</div>
-          <div class="step-content">
-            <h4>PetConnect — Live</h4>
-            <p>Free lost & found pet alerts for any neighborhood. GPS alerts, P.A.W.S. notifications, voice posting.</p>
-            <div class="step-code">github.com/aiandi49/tucson-pet-finder → <a href="https://tucson-pet-finder.vercel.app" target="_blank" style="color:var(--teal)">tucson-pet-finder.vercel.app</a></div>
-          </div>
-        </div>
-
-        <div class="github-step">
-          <div class="step-num">✓</div>
-          <div class="step-content">
-            <h4>PawMatch — Live</h4>
-            <p>Dog playdate matching for any city. Swipe, match, and meet up at your nearest park.</p>
-            <div class="step-code">github.com/aiandi49/pawmatch → <a href="https://pawmatch-seven.vercel.app" target="_blank" style="color:var(--teal)">pawmatch-seven.vercel.app</a></div>
-          </div>
-        </div>
-
-        <div class="github-step">
-          <div class="step-num">✓</div>
-          <div class="step-content">
-            <h4>Paw Pack — Live</h4>
-            <p>Community pet ratings — Hot or Not for every pet owner on earth. Vote daily, climb the board.</p>
-            <div class="step-code">github.com/aiandi49/paw-pound → <a href="https://paw-pound.vercel.app" target="_blank" style="color:var(--teal)">paw-pound.vercel.app</a></div>
-          </div>
-        </div>
-
-        <div class="github-step">
-          <div class="step-num">✓</div>
-          <div class="step-content">
-            <h4>PetHub Hub — You're Looking at It</h4>
-            <p>The central landing page connecting all three apps. Built and deployed by VTREI LLC.</p>
-            <div class="step-code">github.com/aiandi49/pet-hub → <a href="https://pet-hub-three.vercel.app" target="_blank" style="color:var(--teal)">pet-hub-three.vercel.app</a></div>
-          </div>
-        </div>
-
-      </div>
+<!-- Newsletter Modal -->
+<div id="newsletter-modal" class="modal-overlay" onclick="closeModalOutside(event,'newsletter-modal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('newsletter-modal')">✕</button>
+    <div class="modal-icon">🐾</div>
+    <h3 class="modal-title">Join the Pack</h3>
+    <p class="modal-sub">Be the first to hear about new features, city launches, and PetHub news. No spam — just pet love.</p>
+    <div id="newsletter-form">
+      <input class="modal-input" type="text" id="nl-name" placeholder="Your first name" autocomplete="given-name">
+      <input class="modal-input" type="email" id="nl-email" placeholder="Your email address" autocomplete="email">
+      <button class="modal-btn" onclick="submitNewsletter()">🐾 Join the Pack</button>
+    </div>
+    <div id="newsletter-success" class="modal-success" style="display:none;">
+      <div style="font-size:2rem;margin-bottom:12px;">🎉</div>
+      <strong>You're in the Pack!</strong><br>
+      <span style="color:var(--text2);font-size:0.85rem;">We'll be in touch soon.</span>
     </div>
   </div>
-</section>
+</div>
+
+<!-- Contact / Feedback Modal -->
+<div id="contact-modal" class="modal-overlay" onclick="closeModalOutside(event,'contact-modal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('contact-modal')">✕</button>
+    <div class="modal-icon">💬</div>
+    <h3 class="modal-title">Contact Us</h3>
+    <p class="modal-sub">Got feedback, a question, or want to collaborate? We read every message.</p>
+    <div id="contact-form">
+      <input class="modal-input" type="text" id="ct-name" placeholder="Your name" autocomplete="name">
+      <input class="modal-input" type="email" id="ct-email" placeholder="Your email" autocomplete="email">
+      <textarea class="modal-input modal-textarea" id="ct-msg" placeholder="Tell us what's on your mind…"></textarea>
+      <button class="modal-btn" onclick="submitContact()">Send Message</button>
+    </div>
+    <div id="contact-success" class="modal-success" style="display:none;">
+      <div style="font-size:2rem;margin-bottom:12px;">✅</div>
+      <strong>Message sent!</strong><br>
+      <span style="color:var(--text2);font-size:0.85rem;">We'll get back to you soon.</span>
+    </div>
+  </div>
+</div>
+
+<!-- About / Our Story Modal -->
+<div id="about-modal" class="modal-overlay" onclick="closeModalOutside(event,'about-modal')">
+  <div class="modal-box modal-box--wide">
+    <button class="modal-close" onclick="closeModal('about-modal')">✕</button>
+    <div class="modal-icon">🌵</div>
+    <h3 class="modal-title">Built in Tucson · Open to All</h3>
+    <div class="about-story">
+      <p>PetHub started the way most real things do — out of a genuine problem. In the 85710 zip code on Tucson's East Side, pets go missing all the time. Neighbors want to help but have no easy way to connect. Lost pet flyers on telephone poles in 2024 felt like the wrong answer.</p>
+      <p>So we built PetConnect first. A real-time, GPS-powered lost &amp; found network where any neighbor can post — no account required. Within weeks, people were using it. That told us something.</p>
+      <p>We kept going. PawMatch came next — because lonely dogs deserve playmates, and owners deserve community. Then Paw Pack — because pet owners love showing off their animals, and the internet loves voting on cute pets.</p>
+      <p>Three apps. One hub. Zero cost — always.</p>
+      <p>PetHub is built and operated by <strong>VTREI LLC</strong>, a small team based right here in Tucson, AZ 85710. We're not backed by venture capital. We're not trying to sell your data. We're just dog people who wanted something better for our neighborhood — and decided to build it for yours too.</p>
+      <p class="about-tagline">Every city. Every pet. Every owner. That's the mission.</p>
+    </div>
+    <button class="modal-btn" onclick="closeModal('about-modal')">Got It 🐾</button>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -980,4 +1068,64 @@ if ('IntersectionObserver' in window) {
     });
   }, { threshold: 0.08 });
   revealEls.forEach(el => observer.observe(el));
+}
+
+// ── MODAL HELPERS ──
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['newsletter-modal','contact-modal','about-modal'].forEach(closeModal);
+  }
+});
+
+// ── NEWSLETTER SUBMIT ──
+function submitNewsletter() {
+  const name  = document.getElementById('nl-name').value.trim();
+  const email = document.getElementById('nl-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  const mailto = `mailto:director@metaearthinitiative.org?subject=PetHub Newsletter Signup&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A%0AThis person wants to join the PetHub Pack newsletter.`;
+  window.location.href = mailto;
+  document.getElementById('newsletter-form').style.display = 'none';
+  document.getElementById('newsletter-success').style.display = 'block';
+}
+
+// ── CONTACT / FEEDBACK SUBMIT ──
+function submitContact() {
+  const name = document.getElementById('ct-name').value.trim();
+  const email = document.getElementById('ct-email').value.trim();
+  const msg  = document.getElementById('ct-msg').value.trim();
+  if (!msg) { alert('Please write a message before sending.'); return; }
+  const subject = encodeURIComponent('PetHub Message from ' + (name || 'a visitor'));
+  const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+  window.location.href = `mailto:director@metaearthinitiative.org?subject=${subject}&body=${body}`;
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('contact-success').style.display = 'block';
+}
+
+// ── SHARE THIS PAGE ──
+function shareThisPage() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'PetHub — Three Apps for Every Pet Owner',
+      text: 'Check out PetHub — free apps for lost & found pets, dog playdates, and pet ratings. Built in Tucson, open everywhere.',
+      url: window.location.href
+    }).catch(() => {});
+  } else {
+    // Fallback: copy link to clipboard
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('Link copied! Share it with a neighbor 🐾');
+    }).catch(() => {
+      prompt('Copy this link and share it:', window.location.href);
+    });
+  }
 }
