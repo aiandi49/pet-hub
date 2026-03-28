@@ -1231,8 +1231,35 @@ if ('IntersectionObserver' in window) {
 
 // Modal open/close
 function openModal(id) {
-  document.getElementById(id).classList.add('open');
+  var modal = document.getElementById(id);
+  modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Reset contact modal
+  if (id === 'contact-modal') {
+    var s = document.getElementById('contact-success');
+    var f = document.getElementById('contact-form');
+    if (s) s.style.display = 'none';
+    if (f) f.style.display = 'block';
+    var name = document.getElementById('ct-name');
+    var email = document.getElementById('ct-email');
+    var msg = document.getElementById('ct-msg');
+    if (name) name.value = '';
+    if (email) email.value = '';
+    if (msg) msg.value = '';
+  }
+
+  // Reset newsletter modal
+  if (id === 'newsletter-modal') {
+    var ns = document.getElementById('newsletter-success');
+    var nf = document.getElementById('newsletter-form');
+    if (ns) ns.style.display = 'none';
+    if (nf) nf.style.display = 'block';
+    var nlname = document.getElementById('nl-name');
+    var nlemail = document.getElementById('nl-email');
+    if (nlname) nlname.value = '';
+    if (nlemail) nlemail.value = '';
+  }
 }
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
