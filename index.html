@@ -636,14 +636,163 @@ footer {
 .reveal.hidden.visible { opacity: 1; transform: translateY(0); }
 
 /* ── RESPONSIVE ── */
+/* ══════════════════════════════════════
+   MOBILE NAVIGATION HAMBURGER
+══════════════════════════════════════ */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile slide-down menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(7,7,15,0.98);
+  backdrop-filter: blur(12px);
+  z-index: 150;
+  padding: 90px 32px 40px;
+  flex-direction: column;
+  gap: 0;
+  border-bottom: 1px solid var(--border2);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu .mobile-cta {
+  margin-top: 24px;
+  background: var(--gold);
+  color: #07070F;
+  text-align: center;
+  padding: 16px 32px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-bottom: none !important;
+}
+
+/* ══════════════════════════════════════
+   TABLET — 768px
+══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .app-card { grid-template-columns: 1fr; padding: 32px; }
-  .app-card-right { display: none; }
-  .stats-grid { grid-template-columns: 1fr; }
-  .join-inner { padding: 40px 24px; }
-  .github-header, .github-step { padding: 24px; }
-  nav .nav-links { display: none; }
   .wrap { padding: 0 20px; }
+
+  /* Nav */
+  nav .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  /* Hero */
+  .hero { padding: 100px 20px 60px; }
+  .hero-apps { flex-direction: column; align-items: center; gap: 10px; }
+  .hero-app-pill { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* Apps */
+  .apps-section { padding: 80px 0; }
+  .app-card { grid-template-columns: 1fr; padding: 28px 24px; gap: 20px; }
+  .app-card-right { display: none; }
+  .app-features { gap: 6px; }
+
+  /* Stats */
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-cell { padding: 32px 20px; }
+
+  /* Join grid */
+  .join-inner { padding: 36px 20px; }
+  .join-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .join-channel { padding: 18px 14px; }
+
+  /* CTA buttons */
+  .cta-buttons { flex-direction: column; align-items: center; gap: 10px; }
+  .btn-primary, .btn-outline { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* Modals */
+  .modal-box { padding: 44px 24px 32px; border-radius: 20px; }
+  .modal-box--wide { max-width: 100%; }
+  .modal-title { font-size: 1.35rem; }
+}
+
+/* ══════════════════════════════════════
+   PHONE — 480px
+══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+
+  /* Hero */
+  .hero { padding: 90px 16px 50px; min-height: auto; }
+  .scroll-hint { display: none; }
+
+  /* Mission */
+  .mission { padding: 50px 0; }
+
+  /* Apps */
+  .apps-section { padding: 60px 0; }
+  .app-card { padding: 24px 18px; border-radius: 16px; }
+  .app-name { font-size: 1.6rem; }
+  .app-desc { font-size: 0.82rem; }
+
+  /* Stats — stack to 1 col */
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-cell { padding: 28px 20px; }
+
+  /* Join */
+  .join-section { padding: 60px 0; }
+  .join-inner { padding: 28px 16px; border-radius: 20px; }
+  .join-title { font-size: 1.7rem; }
+  .join-sub { font-size: 0.9rem; margin-bottom: 28px; }
+  .join-grid { grid-template-columns: 1fr; gap: 10px; }
+  .join-channel { padding: 16px 14px; border-radius: 12px; }
+  .channel-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .channel-name { font-size: 0.78rem; }
+  .channel-desc { font-size: 0.68rem; }
+
+  /* CTA */
+  .btn-primary, .btn-outline { font-size: 0.75rem; padding: 13px 24px; }
+
+  /* Footer */
+  footer { padding: 36px 0; }
+  .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
+  .footer-byline { text-align: center !important; }
+
+  /* Modals — full screen on tiny phones */
+  .modal-overlay { padding: 12px; align-items: flex-end; }
+  .modal-box {
+    padding: 36px 20px 28px;
+    border-radius: 20px 20px 16px 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title { font-size: 1.2rem; }
+  .modal-sub { font-size: 0.8rem; }
+  .modal-input { font-size: 0.82rem; padding: 12px 14px; }
+  .about-story p { font-size: 0.82rem; }
 }
 
 
@@ -745,8 +894,20 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
       <a href="#" onclick="openModal('contact-modal');return false;">Contact Us</a>
       <a href="#" onclick="openModal('newsletter-modal');return false;" class="nav-cta">Join the Pack 🐾</a>
     </div>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#apps" onclick="closeMobileMenu()">The Apps</a>
+  <a href="#join" onclick="closeMobileMenu()">Try Now</a>
+  <a href="#" onclick="closeMobileMenu();openModal('contact-modal');return false;">Contact Us</a>
+  <a href="#" onclick="closeMobileMenu();openModal('about-modal');return false;">Our Story 🌵</a>
+  <a href="#" onclick="closeMobileMenu();openModal('newsletter-modal');return false;" class="mobile-cta">Join the Pack 🐾</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1137,6 +1298,24 @@ async function submitContact() {
     document.getElementById('contact-success').style.display = 'block';
   }
 }
+
+// Mobile menu
+function toggleMobileMenu() {
+  var menu = document.getElementById('mobileMenu');
+  var btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close mobile menu on scroll
+window.addEventListener('scroll', function() {
+  closeMobileMenu();
+}, { passive: true });
 
 // Share page
 function shareThisPage() {
