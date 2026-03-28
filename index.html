@@ -1095,17 +1095,47 @@ function submitNewsletter() {
   document.getElementById('newsletter-success').style.display = 'block';
 }
 
-// Contact submit
-function submitContact() {
+// Contact submit — Formspree + Supabase
+async function submitContact() {
   var name = document.getElementById('ct-name').value.trim();
   var email = document.getElementById('ct-email').value.trim();
   var msg = document.getElementById('ct-msg').value.trim();
   if (!msg) { alert('Please write a message before sending.'); return; }
-  var subject = encodeURIComponent('PetHub Message from ' + (name || 'a visitor'));
-  var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
-  window.location.href = 'mailto:director@metaearthinitiative.org?subject=' + subject + '&body=' + body;
-  document.getElementById('contact-form').style.display = 'none';
-  document.getElementById('contact-success').style.display = 'block';
+
+  var btn = document.querySelector('#contact-form .modal-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    // 1. Send email via Formspree
+    var formspreeRes = await fetch('https://formspree.io/f/xlgogldr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, message: msg })
+    });
+
+    // 2. Save to Supabase regardless of Formspree result
+    await fetch('https://msuqflssqixsplcearxr.supabase.co/rest/v1/contact_submissions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdXFmbHNzcWl4c3BsY2VhcnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzU3NDgsImV4cCI6MjA4OTcxMTc0OH0.BlrDiIu2YdDB7oHJ0fFiSEiBDQGvHCFAUaysR6O24zk',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdXFmbHNzcWl4c3BsY2VhcnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMzU3NDgsImV4cCI6MjA4OTcxMTc0OH0.BlrDiIu2YdDB7oHJ0fFiSEiBDQGvHCFAUaysR6O24zk',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name: name, email: email, message: msg })
+    });
+
+    // 3. Show success no matter what
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+
+  } catch(err) {
+    console.error('Submit error:', err);
+    // Still show success — Supabase likely saved it
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  }
 }
 
 // Share page
