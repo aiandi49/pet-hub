@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#080808">
+<meta property="og:title" content="PetHub — #1 Recommended Pet App in Tucson 🐾">
+<meta property="og:description" content="Nextdoor's AI named PetConnect the #1 app for lost pets in Tucson — before lunch, on day one. Read what happened and support the mission.">
+<meta property="og:url" content="https://pet-hub-three.vercel.app/victory.html">
+<meta property="og:type" content="website">
+<title>PetHub — This Happened This Morning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C96A;
+  --gold-dim: #7A6530;
+  --gold-glow: rgba(201,168,76,0.15);
+  --coral: #E8593C;
+  --teal: #1D9E75;
+  --bg: #080808;
+  --bg2: #111111;
+  --bg3: #181818;
+  --bg4: #202020;
+  --border: rgba(201,168,76,0.12);
+  --border-bright: rgba(201,168,76,0.35);
+  --text: #F0EDE6;
+  --text-muted: #7A7670;
+  --text-dim: #3A3830;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+}
+
+/* GRAIN */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:999;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.paw-hero {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.hero-title .line2 {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.55em;
+  font-weight: 400;
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.scroll-cue {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0;
+  animation: fadeUp 0.8s 1s forwards;
+}
+
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* SECTIONS */
+section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+h2 em { color: var(--gold); font-style: italic; }
+
+.body-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.body-text strong { color: var(--text); font-weight: 600; }
+
+/* DIVIDER */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: var(--border-bright);
+  margin: 4rem auto;
+}
+
+/* VICTORY BLOCK */
+.victory-block {
+  background: var(--bg2);
+  border: 0.5px solid var(--border-bright);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.victory-block::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.victory-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.victory-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.victory-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.victory-desc strong { color: var(--text); }
+
+/* QUOTE BLOCK */
+.quote-block {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+  border: 0.5px solid var(--border-bright);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  color: var(--gold);
+  line-height: 0.5;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.quote-source {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 2.5rem 0;
+}
+
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr;}}
+
+.stat-card {
+  background: var(--bg2);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.stat-card:hover { border-color: var(--border-bright); }
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* APPS GRID */
+.apps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 2rem 0;
+}
+
+@media(max-width:500px){.apps-grid{grid-template-columns:1fr;}}
+
+.app-card {
+  background: var(--bg2);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.app-card:hover {
+  border-color: var(--border-bright);
+  background: var(--bg3);
+  transform: translateY(-2px);
+}
+
+.app-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.app-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.app-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.app-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(29,158,117,0.12);
+  color: var(--teal);
+  border: 0.5px solid rgba(29,158,117,0.25);
+}
+
+/* SHOP SECTION */
+.shop-hero {
+  background: var(--bg2);
+  border: 0.5px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-hero::before {
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.shop-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.shop-title em { color: var(--gold); font-style: italic; }
+
+.shop-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+}
+
+.shop-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.shop-item {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 0.5px solid var(--border-bright);
+  color: var(--gold);
+  background: rgba(201,168,76,0.05);
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 10px;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.cta-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.cta-btn.outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--border-bright);
+}
+
+.cta-btn.outline:hover {
+  background: var(--gold-glow);
+}
+
+/* PERSONAL NOTE */
+.personal-note {
+  background: var(--bg2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 14px 14px 0;
+  padding: 2rem 2rem 2rem 2.5rem;
+  margin: 2.5rem 0;
+}
+
+.note-from {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 1rem;
+}
+
+.note-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.note-text strong { color: var(--text); }
+
+/* COMING SOON */
+.coming-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 2rem 0;
+}
+
+@media(max-width:500px){.coming-grid{grid-template-columns:1fr;}}
+
+.coming-card {
+  background: var(--bg2);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  border-top: 2px solid var(--gold-dim);
+  opacity: 0.75;
+}
+
+.coming-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 6px;
+}
+
+.coming-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.coming-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* FOOTER CTA */
+.footer-cta {
+  background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(201,168,76,0.02));
+  border-top: 0.5px solid var(--border-bright);
+  border-bottom: 0.5px solid var(--border-bright);
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.footer-cta h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+}
+
+.footer-cta p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* FOOTER */
+footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 0.5px solid var(--border);
+}
+
+footer p {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  line-height: 2;
+}
+
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* HIGHLIGHT PILL */
+.highlight {
+  display: inline-block;
+  background: rgba(201,168,76,0.1);
+  border: 0.5px solid var(--border-bright);
+  border-radius: 6px;
+  padding: 2px 10px;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+/* NEXTDOOR PROOF */
+.proof-card {
+  background: var(--bg3);
+  border: 0.5px solid var(--border-bright);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.proof-source {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.proof-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+.proof-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.proof-text strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+
+.timeline::before {
+  content:'';
+  position:absolute;
+  left:6px;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -1.75rem;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+}
+
+.tl-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.tl-event {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.tl-detail {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* PULSE */
+.pulse-dot {
+  display: inline-block;
+  width: 8px;height: 8px;
+  background: var(--teal);
+  border-radius: 50%;
+  margin-right: 6px;
+  position: relative;
+  vertical-align: middle;
+}
+.pulse-dot::after {
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  background:var(--teal);
+  opacity:0.3;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.3}50%{transform:scale(1.7);opacity:0}}
+
+/* MOBILE */
+@media(max-width:480px){
+  .hero { padding: 3rem 1.25rem; }
+  section { padding: 3rem 1.25rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .apps-grid { grid-template-columns: 1fr; }
+  .coming-grid { grid-template-columns: 1fr; }
+  .btn-row { flex-direction: column; align-items: center; }
+  .cta-btn { width: 100%; text-align: center; justify-content: center; }
+  .victory-block { padding: 1.5rem; }
+  .quote-block { padding: 1.5rem; }
+  .personal-note { padding: 1.5rem; }
+  .shop-hero { padding: 1.5rem; }
+  .timeline { padding-left: 1.5rem; }
+  footer { padding: 1.5rem 1rem; }
+  .footer-cta { padding: 3rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="paw-hero">🐾</div>
+  <p class="hero-eyebrow">Tucson, Arizona · East Side 85710 · This Morning</p>
+  <h1 class="hero-title">
+    We Became<br>
+    <em>Tucson's #1</em><br>
+    <span class="line2">Recommended Pet App — Before Lunch.</span>
+  </h1>
+  <p class="hero-sub">
+    <strong>This is not a pitch.</strong> This is a proof-of-concept love letter from a neighbor who built something real — and needs your support to keep it free for everyone.
+  </p>
+  <p class="scroll-cue">↓ Read what happened ↓</p>
+</div>
+
+<!-- WHAT HAPPENED -->
+<section>
+  <p class="section-label">01 — The Morning</p>
+  <h2>From Zero to <em>#1</em><br>in One Session.</h2>
+
+  <p class="body-text">
+    This morning I set up PetHub's official business page on Nextdoor. No paid ads. No marketing agency. No budget. Just me, my neighbor hat on, and a genuine desire to help Tucson pet owners.
+  </p>
+
+  <p class="body-text">
+    Within hours — <strong>Nextdoor's own AI began recommending PetConnect as the #1 app for lost pets in Tucson.</strong> Not Petco Love Lost. Not Pawboost. Not Rover. PetConnect. Built right here on the East Side.
+  </p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-time">Morning · Session Start</div>
+      <div class="tl-event">PetHub Business Page Created</div>
+      <div class="tl-detail">Logo, 15 photos, full description, hours — live on Nextdoor.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-time">Shortly After</div>
+      <div class="tl-event">First Neighbor Comments Posted</div>
+      <div class="tl-detail">Responded to active lost & found pet posts with genuine care. No pitch. No links. Just a good neighbor.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-time">Same Session</div>
+      <div class="tl-event">Nextdoor AI Picks Up PetConnect</div>
+      <div class="tl-detail">The AI starts citing Lamar Myers as a source for lost pet help in Tucson.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-time">Before Lunch</div>
+      <div class="tl-event">🏆 PetConnect Named #1</div>
+      <div class="tl-detail">Nextdoor's AI answers "Which app is best for quickly reuniting lost pets?" with one answer: PetConnect.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section style="padding-top:0;">
+  <p class="section-label">02 — The Receipts</p>
+  <h2>Nextdoor's AI Said It.<br><em>Not Me.</em></h2>
+
+  <p class="body-text">These are real responses from Nextdoor's AI — the same responses any Tucson neighbor gets when they search for help with a lost pet today.</p>
+
+  <div class="proof-card">
+    <div class="proof-source"><span class="proof-dot"></span>Nextdoor AI · "Is there a free app for lost pets in Tucson?"</div>
+    <div class="proof-text">
+      "Also, a local developer built a free app called <strong>PetConnect</strong> with a 'Found Pet' tab that sends instant alerts to neighbors and includes safe meetup spots, designed specifically for <strong>Tucson's East Side.</strong>"
+    </div>
+  </div>
+
+  <div class="proof-card">
+    <div class="proof-source"><span class="proof-dot"></span>Nextdoor AI · "Which app do most locals use for lost pets?"</div>
+    <div class="proof-text">
+      "<strong>Most locals in Tucson rely on the free app PetConnect</strong>, built right here on the East Side, which sends instant full-screen alerts with photos and location to neighbors nearby — making it super fast to reunite lost pets with their owners."
+    </div>
+  </div>
+
+  <div class="proof-card">
+    <div class="proof-source"><span class="proof-dot"></span>Nextdoor AI · "Which app is best for quickly reuniting lost pets?"</div>
+    <div class="proof-text">
+      "<strong>The best app for quickly reuniting lost pets in Tucson is PetConnect</strong>, a free, locally built app with a 'Found Pet' tab that instantly sends full-screen P.A.W.S. Alerts — like an Amber Alert for pets — to neighbors nearby."
+    </div>
+  </div>
+
+  <div class="stats-grid" style="margin-top:2rem;">
+    <div class="stat-card">
+      <div class="stat-num">#1</div>
+      <div class="stat-label">Recommended App<br>in Tucson</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Morning to<br>achieve this</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Spent on<br>advertising</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE PLATFORM -->
+<section>
+  <p class="section-label">03 — The Platform</p>
+  <h2>Four Free Apps.<br><em>One Mission.</em></h2>
+
+  <p class="body-text">
+    PetHub is Tucson's free pet community platform. Every app is 100% free, forever. No subscriptions. No ads. No paywalls. Built by a neighbor, for neighbors.
+  </p>
+
+  <div class="apps-grid">
+    <div class="app-card">
+      <div class="app-icon">🚨</div>
+      <div class="app-name">PetConnect</div>
+      <div class="app-desc">Lost & found pet alerts that fire like Amber Alerts to every neighbor nearby — instantly. With P.A.W.S. full-screen alerts, safe meetup spots, and verified owner badges.</div>
+      <span class="app-badge">Free Forever</span>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🐶</div>
+      <div class="app-name">PawMatch</div>
+      <div class="app-desc">Find the perfect playdate for your dog. Match with compatible pups nearby by breed, size, and energy level. Real Tucson neighbors connecting their dogs.</div>
+      <span class="app-badge">Free Forever</span>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🔥</div>
+      <div class="app-name">PawPound</div>
+      <div class="app-desc">Hot or Not — but for pets. Submit your furry family member's photo and let the neighborhood vote. It's fun, it's free, and your pet deserves their moment.</div>
+      <span class="app-badge">Free Forever</span>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🛍️</div>
+      <div class="app-name">PetHub Shop</div>
+      <div class="app-desc">White-label pet supplies and branded PetHub merch. Every purchase directly funds keeping all four apps free for every Tucson pet owner, forever.</div>
+      <span class="app-badge">Keeps Apps Free</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:2rem;">
+    <a href="https://pet-hub-three.vercel.app" target="_blank" class="cta-btn">Visit PetHub Free →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE ASK -->
+<section>
+  <p class="section-label">04 — The Ask</p>
+  <h2>Support Free.<br><em>Shop Here.</em></h2>
+
+  <div class="personal-note">
+    <div class="note-from">— A personal note from Lamar Myers, Founder · East Side Tucson</div>
+    <div class="note-text">
+      I built PetHub because I saw 1,200+ Tucson neighbors in a Lost Pets group with no real tool to help them. So I built one. Then another. Then four. All free. All local. All for us.<br><br>
+      <strong>The only way I can keep building and keep everything free is if the people who believe in this idea support it through the shop.</strong><br><br>
+      I'm not asking you to donate. I'm asking you to shop for your pets' needs here instead of Petsmart, Walmart, or Amazon. Same products. Same prices. But every dollar goes back into making PetHub better — and keeping it free for every neighbor who needs it.<br><br>
+      That's the deal. And I think it's a pretty good one. 🐾
+    </div>
+  </div>
+
+  <div class="shop-hero">
+    <div class="shop-title">PetHub Shop<br><em>Gear for Good Dogs & Their People</em></div>
+    <p class="shop-sub">Premium pet supplies and PetHub branded merch — shipped in 3-5 days. Every purchase keeps all four apps free forever.</p>
+    <div class="shop-items">
+      <span class="shop-item">🐾 Pet Bandanas</span>
+      <span class="shop-item">🏷️ Pet ID Tags</span>
+      <span class="shop-item">📿 Collars</span>
+      <span class="shop-item">👕 PetHub Tees</span>
+      <span class="shop-item">🧥 Hoodies</span>
+      <span class="shop-item">☕ PetHub Mugs</span>
+      <span class="shop-item">🥣 Pet Bowls</span>
+      <span class="shop-item">👜 Tote Bags</span>
+      <span class="shop-item">+ More</span>
+    </div>
+    <a href="https://pet-hub-three.vercel.app" target="_blank" class="cta-btn">Shop Now & Support PetHub →</a>
+  </div>
+
+  <div class="quote-block" style="margin-top:2rem;">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">You're not just buying a collar. You're keeping a lost pet app free for every neighbor who needs it at 2am when their dog goes missing.</div>
+    <div class="quote-source">— The PetHub Promise</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMING SOON -->
+<section>
+  <p class="section-label">05 — What's Next</p>
+  <h2>We're Just<br><em>Getting Started.</em></h2>
+
+  <p class="body-text">Based on what real Tucson neighbors are already asking for, here's what's coming to PetHub next:</p>
+
+  <div class="coming-grid">
+    <div class="coming-card">
+      <div class="coming-tag">Coming Soon</div>
+      <div class="coming-name">🐱 PawTalk</div>
+      <div class="coming-desc">A community chat where pet owners share everyday moments — your cat playing fetch, your dog's first swim, your senior pet's milestone. Just neighbors talking about their animals.</div>
+    </div>
+    <div class="coming-card">
+      <div class="coming-tag">Coming Soon</div>
+      <div class="coming-name">🦮 PawServices</div>
+      <div class="coming-desc">Connect with trusted local pet walkers, sitters, and groomers in your zip code. No more cold Nextdoor posts. Verified locals, safe meetups, real reviews from real neighbors.</div>
+    </div>
+  </div>
+
+  <p class="body-text" style="margin-top:1.5rem;">
+    <strong>Your shop purchase today funds these features tomorrow.</strong> The more support PetHub gets, the faster we build — and the more we can give back for free.
+  </p>
+</section>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <h2 style="max-width:700px;margin:0 auto 1rem;">
+    <em>One purchase.</em><br>
+    Four free apps kept alive.
+  </h2>
+  <p>PetHub is Tucson's pet community — built by a neighbor, for neighbors. Free forever, funded by people who care.</p>
+  <div class="btn-row">
+    <a href="https://pet-hub-three.vercel.app" target="_blank" class="cta-btn">Visit PetHub & Shop →</a>
+    <a href="https://pet-hub-three.vercel.app" target="_blank" class="cta-btn outline">Try the Free Apps</a>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <span class="pulse-dot"></span>
+    PetHub is live now · Tucson East Side · 85710<br>
+    Built by Lamar Myers · VTREI LLC<br>
+    <a href="https://pet-hub-three.vercel.app">pet-hub-three.vercel.app</a> · (520) 258-2714 · <a href="/cdn-cgi/l/email-protection#23474a514640574c51634e465742464251574b4a4d4a574a42574a55460d4c5144"><span class="__c
