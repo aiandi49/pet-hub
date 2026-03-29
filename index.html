@@ -711,6 +711,7 @@ footer {
 
   /* Hero */
   .hero { padding: 100px 20px 60px; }
+  .hero-title { font-size: 2.8rem; }
   .hero-apps { flex-direction: column; align-items: center; gap: 10px; }
   .hero-app-pill { width: 100%; max-width: 320px; justify-content: center; }
 
@@ -747,6 +748,8 @@ footer {
 
   /* Hero */
   .hero { padding: 90px 16px 50px; min-height: auto; }
+  .hero-title { font-size: 2.2rem; line-height: 1.15; }
+  .hero-sub { font-size: 0.85rem; }
   .scroll-hint { display: none; }
 
   /* Mission */
@@ -757,6 +760,7 @@ footer {
   .app-card { padding: 24px 18px; border-radius: 16px; }
   .app-name { font-size: 1.6rem; }
   .app-desc { font-size: 0.82rem; }
+  .app-tag { font-size: 0.65rem; padding: 3px 10px; }
 
   /* Stats — stack to 1 col */
   .stats-grid { grid-template-columns: 1fr; }
@@ -774,7 +778,8 @@ footer {
   .channel-desc { font-size: 0.68rem; }
 
   /* CTA */
-  .btn-primary, .btn-outline { font-size: 0.75rem; padding: 13px 24px; }
+  .btn-primary, .btn-outline { font-size: 0.75rem; padding: 13px 24px; width: 100%; max-width: 100%; }
+  .cta-buttons { flex-direction: column; gap: 10px; width: 100%; }
 
   /* Footer */
   footer { padding: 36px 0; }
@@ -793,6 +798,19 @@ footer {
   .modal-sub { font-size: 0.8rem; }
   .modal-input { font-size: 0.82rem; padding: 12px 14px; }
   .about-story p { font-size: 0.82rem; }
+}
+
+/* ══════════════════════════════════════
+   TINY PHONES — 375px (iPhone SE etc)
+══════════════════════════════════════ */
+@media (max-width: 375px) {
+  .hero-title { font-size: 1.9rem; }
+  .hero-eyebrow { font-size: 0.65rem; }
+  .app-name { font-size: 1.4rem; }
+  .join-title { font-size: 1.5rem; }
+  .modal-box { padding: 32px 16px 24px; }
+  .nav-logo { font-size: 1.1rem; }
+  .nav-logo span { display: none; }
 }
 
 
@@ -891,6 +909,7 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
     <div class="nav-links">
       <a href="#apps">The Apps</a>
       <a href="#join">Try Now</a>
+      <a href="https://pethub-shop.vercel.app" target="_blank">Shop 🛒</a>
       <a href="#" onclick="openModal('contact-modal');return false;">Contact Us</a>
       <a href="#" onclick="openModal('newsletter-modal');return false;" class="nav-cta">Join the Pack 🐾</a>
     </div>
@@ -904,6 +923,7 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
 <div class="mobile-menu" id="mobileMenu">
   <a href="#apps" onclick="closeMobileMenu()">The Apps</a>
   <a href="#join" onclick="closeMobileMenu()">Try Now</a>
+  <a href="https://pethub-shop.vercel.app" target="_blank" onclick="closeMobileMenu()">Shop 🛒</a>
   <a href="#" onclick="closeMobileMenu();openModal('contact-modal');return false;">Contact Us</a>
   <a href="#" onclick="closeMobileMenu();openModal('about-modal');return false;">Our Story 🌵</a>
   <a href="#" onclick="closeMobileMenu();openModal('newsletter-modal');return false;" class="mobile-cta">Join the Pack 🐾</a>
