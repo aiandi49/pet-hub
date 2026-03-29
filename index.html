@@ -36,6 +36,7 @@
   --connect-color: #FF5C6C;
   --pawmatch-color:#00CDB4;
   --pawpound-color:#F5C84A;
+  --shop-color: #F5A623;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -226,9 +227,11 @@ nav.scrolled { background: rgba(7,7,15,0.92); }
 .hero-app-pill.connect::before  { background: linear-gradient(135deg, rgba(255,92,108,0.15), rgba(255,92,108,0.05)); }
 .hero-app-pill.pawmatch::before { background: linear-gradient(135deg, rgba(0,205,180,0.15), rgba(0,205,180,0.05)); }
 .hero-app-pill.pawpound::before { background: linear-gradient(135deg, rgba(245,200,74,0.15), rgba(245,200,74,0.05)); }
+.hero-app-pill.shop::before     { background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(245,166,35,0.05)); }
 .hero-app-pill:hover.connect  { border-color: rgba(255,92,108,0.3); }
 .hero-app-pill:hover.pawmatch { border-color: rgba(0,205,180,0.3); }
 .hero-app-pill:hover.pawpound { border-color: rgba(245,200,74,0.3); }
+.hero-app-pill:hover.shop     { border-color: rgba(245,166,35,0.3); }
 .pill-dot {
   width: 8px; height: 8px; border-radius: 50%;
   flex-shrink: 0;
@@ -236,6 +239,7 @@ nav.scrolled { background: rgba(7,7,15,0.92); }
 .connect  .pill-dot { background: var(--connect-color); box-shadow: 0 0 6px var(--coral); }
 .pawmatch .pill-dot { background: var(--pawmatch-color); box-shadow: 0 0 6px var(--teal); }
 .pawpound .pill-dot { background: var(--pawpound-color); box-shadow: 0 0 6px var(--gold); }
+.shop     .pill-dot { background: var(--shop-color); box-shadow: 0 0 6px var(--shop-color); }
 
 /* ── SCROLL INDICATOR ── */
 .scroll-hint {
@@ -316,14 +320,17 @@ nav.scrolled { background: rgba(7,7,15,0.92); }
 .app-card.connect { --card-color: var(--connect-color); }
 .app-card.pawmatch { --card-color: var(--pawmatch-color); }
 .app-card.pawpound { --card-color: var(--pawpound-color); }
+.app-card.shop { --card-color: var(--shop-color); }
 
 .app-card.connect::before  { background: linear-gradient(135deg, rgba(255,92,108,0.08), rgba(255,92,108,0.02)); }
 .app-card.pawmatch::before { background: linear-gradient(135deg, rgba(0,205,180,0.08), rgba(0,205,180,0.02)); }
 .app-card.pawpound::before { background: linear-gradient(135deg, rgba(245,200,74,0.08), rgba(245,200,74,0.02)); }
+.app-card.shop::before     { background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.02)); }
 
 .app-card:hover.connect  { border-color: rgba(255,92,108,0.25); }
 .app-card:hover.pawmatch { border-color: rgba(0,205,180,0.25); }
 .app-card:hover.pawpound { border-color: rgba(245,200,74,0.25); }
+.app-card:hover.shop     { border-color: rgba(245,166,35,0.25); }
 
 /* Accent left border */
 .app-card::after {
@@ -411,6 +418,7 @@ nav.scrolled { background: rgba(7,7,15,0.92); }
 .app-card.connect:hover .app-icon-wrap  { box-shadow: 0 20px 60px rgba(255,92,108,0.2); border-color: rgba(255,92,108,0.3); }
 .app-card.pawmatch:hover .app-icon-wrap { box-shadow: 0 20px 60px rgba(0,205,180,0.2); border-color: rgba(0,205,180,0.3); }
 .app-card.pawpound:hover .app-icon-wrap { box-shadow: 0 20px 60px rgba(245,200,74,0.2); border-color: rgba(245,200,74,0.3); }
+.app-card.shop:hover .app-icon-wrap     { box-shadow: 0 20px 60px rgba(245,166,35,0.2); border-color: rgba(245,166,35,0.3); }
 
 .app-arrow {
   position: absolute; bottom: 24px; right: 24px;
@@ -935,7 +943,7 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
 
   <h1 class="hero-title">
     One Hub.<br>
-    <em>Three Apps.</em><br>
+    <em>Four Apps.</em><br>
     Every Pet.
   </h1>
 
@@ -955,6 +963,10 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
     <a href="https://paw-pound.vercel.app" target="_blank" class="hero-app-pill pawpound">
       <span class="pill-dot"></span>
       Paw Pack — Hot or Not
+    </a>
+    <a href="https://pethub-shop.vercel.app" target="_blank" class="hero-app-pill shop">
+      <span class="pill-dot"></span>
+      PetHub Shop — Gear for Good Dogs
     </a>
   </div>
 
@@ -1066,6 +1078,36 @@ a.join-channel { text-decoration: none; color: inherit; display: block; }
         </div>
         <div class="app-card-right">
           <div class="app-icon-wrap">🏆</div>
+        </div>
+        <div class="app-arrow">↗</div>
+      </a>
+
+      <!-- PetHub Shop -->
+      <a href="https://pethub-shop.vercel.app" target="_blank" class="app-card shop reveal" id="shop">
+        <div class="app-card-left">
+          <div class="app-number">04 — Shop</div>
+          <div class="app-status"><span class="status-dot" style="background:var(--shop-color);box-shadow:0 0 6px var(--shop-color);"></span> Live on Vercel</div>
+          <h3 class="app-name">PetHub <em>Shop</em></h3>
+          <p class="app-tagline">"Gear for good dogs and their people. Every purchase keeps PetHub free."</p>
+          <p class="app-desc">
+            The official PetHub merch store. Every item is 100% white label —
+            printed on demand, shipped to your door. When you buy PetHub gear,
+            you're keeping the apps free, the servers running, and this whole
+            community alive. No ads. No paywalls. Just great products and good dogs.
+          </p>
+          <div class="app-features">
+            <span class="feature-tag">👕 PetHub Logo Tee</span>
+            <span class="feature-tag">🧥 PetHub Hoodie</span>
+            <span class="feature-tag">👜 PetHub Tote Bag</span>
+            <span class="feature-tag">🩴 PetHub Bandana</span>
+            <span class="feature-tag">☕ PetHub Mug</span>
+            <span class="feature-tag">🐾 Pet ID Tag</span>
+            <span class="feature-tag">🥣 Pet Bowl</span>
+            <span class="feature-tag">🏷️ Stickers</span>
+          </div>
+        </div>
+        <div class="app-card-right">
+          <div class="app-icon-wrap">🛒</div>
         </div>
         <div class="app-arrow">↗</div>
       </a>
